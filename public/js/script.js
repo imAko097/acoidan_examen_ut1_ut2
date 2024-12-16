@@ -1,7 +1,8 @@
 document.addEventListener('DOMContentLoaded', function () {
     const csrfToken = document.querySelector('meta[name="_token"]').getAttribute('content');
+    
+    // Nuevo
     const formNuevo = document.getElementById('formNuevo');
-
     formNuevo.addEventListener('submit', function (event) {
         event.preventDefault();
 
@@ -28,13 +29,40 @@ document.addEventListener('DOMContentLoaded', function () {
         })
         .then(response => response.json())
         .then(data => {
-            alert(data.MESSAGE);
+            const mensajeAviso = document.getElementById('mensajeAviso');
+            mensajeAviso.style.backgroundColor = '#b1ee46';
+            mensajeAviso.style.color = 'white';
+            mensajeAviso.innerHTML = data.MESSAGE;
             btnEnviar.disabled = false;
+            setTimeout(() => {
+                mensajeAviso.remove();
+                window.location.reload();
+            }, 2000);
         })
         .catch(error => {
             console.error('Error:', error);
-            alert('Error al enviar datos');
+            const mensajeAviso = document.getElementById('mensajeAviso');
+            mensajeAviso.style.backgroundColor = '#f44336';
+            mensajeAviso.style.color = 'white';
+            mensajeAviso.innerHTML = 'Error al enviar mensaje';
             btnEnviar.disabled = false;
+            setTimeout(() => {
+                mensajeAviso.remove();
+                window.location.reload();
+            }, 2000);
+        });
+    });
+
+    // Modificar
+    const divModificar = document.getElementById('divModificar');
+    const btnModificar = document.querySelectorAll('button[id^="btnModificar-"]');
+    btnModificar.forEach(btn => {
+        btn.addEventListener('click', function () {
+            if (divModificar.style.display === 'none') {
+                divModificar.style.display = 'block';
+            } else {
+                divModificar.style.display = 'none';
+            }
         });
     });
 });

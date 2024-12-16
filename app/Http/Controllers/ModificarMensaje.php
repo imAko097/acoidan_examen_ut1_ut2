@@ -16,8 +16,6 @@ class ModificarMensaje extends Controller
         ], [
             'text.required' => 'El campo texto es obligatorio',
             'text.max' => 'No puede superar los 50 caracteres',
-            'negrita.in' => 'Estilo inválido',
-            'subrayado.in' => 'Estilo inválido'
         ]);
 
         // Agregar en la base de datos
@@ -39,17 +37,19 @@ class ModificarMensaje extends Controller
         $registro = Message::findOrFail($id);
         $datos = $request -> validate([
             'text' => 'required|max:50',
-            'negrita_subrayado' => 'required|in:0,1',
+            'negrita' => 'boolean',
+            'subrayado' => 'boolean',
         ], [
-            'text.required' => 'El campo texto es obligatorio',
-            'negrita_subrayado.required' => 'Debes seleccionar un estilo',
-            'negrita_subrayado.in' => 'Estilo inválido'
+            'text.required' => 'Texto es obligatorio',
+            'text.max' => 'No puede superar los 50 caracteres',
         ]);
 
         $registro_bd = new Message($datos);
 
         $registro_bd -> save();
 
-        return view('messages', compact('messages', 'message'));
+        return response() -> json([
+            'MESSAGE' => 'Mensaje editado correctamente'
+        ]);
     }
 }

@@ -30,6 +30,7 @@
                 </button>
             </div>            
         </form>
+        <div id="mensajeAviso"></div>
         @if($messages->isEmpty())
             <p>No hay mensajes en la base de datos</p>
         @else
@@ -44,11 +45,35 @@
                     @else
                         <li>{{ $message->text }}</li>
                     @endif
-                    <a href="{{ route('mostrar.formulario.modificar', $message -> id) }}">Modificar mensaje</a>
+                    <button id="btnModificar-{{ $message->id }}">
+                        &#9999; Modificar
+                    </button>
                 @endforeach
             </ul>
         @endif
-        <div id="formModificar"></div>
+        <div id="divModificar" style="display: none;">
+            <form id="formModificar-{{ $message->id }}" method="POST">
+                @csrf
+                @method('PUT')
+                <div>
+                    <label for="nuevoMensaje">Escribe un mensaje:</label><br>
+                    <textarea name="text" id="nuevoMensajeMod" style="resize: none;">
+                    </textarea>
+                </div>
+                <div>
+                    <span>Añade estilos:</span>
+                    <label for="negrita">Negrita</label>
+                    <input type="checkbox" name="negrita" id="negritaMod">
+                    <label for="subrayado">Subrayado</label>
+                    <input type="checkbox" name="subrayado" id="subrayadoMod">
+                </div>
+                <div>
+                    <button type="submit">
+                        Modificar
+                    </button>
+                </div> 
+            </form>
+        </div>
     </div>
 </body>
 </html>
