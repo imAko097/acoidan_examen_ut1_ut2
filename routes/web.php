@@ -12,9 +12,8 @@ Route::get('/messages', function () {
     return view('messages', ['messages' => $messages]);
 });
 
-Route::post('/messages', [ModificarMensaje::class, 'newMensaje']);
+Route::post('/messages', [ModificarMensaje::class, 'newMensaje']); // Crea mensaje
 
-// Route::get('/messages/{id}', [ModificarMensaje::class, 'mostrarMensaje']) -> name('mostrar.formulario.modificar');
-Route::get('/formMessage/{id}', [ModificarMensaje::class, 'getMensaje']);
+Route::get('/formMessage/{id}', [ModificarMensaje::class, 'getMensaje']); // Obtiene 1 mensaje
 
-Route::put('/modMessages/{id}', [ModificarMensaje::class, 'modificarMensaje']) -> name('modificar.duda');
+Route::put('/modMessages/{id}', [ModificarMensaje::class, 'modificarMensaje']); // Modifica mensaje

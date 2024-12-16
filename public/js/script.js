@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Modificar
     const divModificar = document.getElementById('divModificar');
     const btnModificar = document.querySelectorAll('button[id^="btnModificar-"]');
-    const formModificar = document.querySelectorAll('form[id^="formModificar-"]');
 
     btnModificar.forEach(btn => {
         btn.addEventListener('click', function () {
@@ -68,7 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
         //     }
 
             // Colocar datos en el formulario, según el mensaje seleccionado
-            const idMensaje = btn.id.split('-')[1];
+            const idMensaje = btn.id.split('-')[1]; // ID del mensaje
+            
             fetch('/formMessage/' + idMensaje)
             .then(response => response.json())
             .then(data => {
@@ -79,13 +79,61 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => {
                 console.error(error);
             });
+
+            const formModificar = document.getElementsByTagName('form')[1]; // Formulario de modificación
+            formModificar.setAttribute('id', 'formModificar-' + idMensaje);
+            formModificar.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const btnEnviar = document.querySelector('button[type="submit"]');
+                btnEnviar.disabled = true;
+                
+                // Valores del formulario
+                const nuevoMensaje = document.getElementById('nuevoMensajeMod').value;
+                const negrita = document.getElementById('negritaMod').checked;
+                const subrayado = document.getElementById('subrayadoMod').checked;
+                
+                // Enviar datos al servidor
+                fetch('/modMessages/' + idMensaje, {
+                    method: 'PUT',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: nuevoMensaje,
+                        negrita: negrita,
+                        subrayado: subrayado
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    const mensajeAviso = document.getElementById('mensajeAviso');
+                    mensajeAviso.style.backgroundColor = '#b1ee46';
+                    mensajeAviso.style.color = 'black';
+                    mensajeAviso.style.marginTop = '10px';
+                    mensajeAviso.innerHTML = data.MESSAGE;
+                    btnEnviar.disabled = false;
+                    setTimeout(() => {
+                        mensajeAviso.remove();
+                        window.location.reload();
+                    }, 2000);
+                })
+                .catch(error => {
+                    console.error(error);
+                    const mensajeAviso = document.getElementById('mensajeAviso');
+                    mensajeAviso.style.backgroundColor = '#f44336';
+                    mensajeAviso.style.color = 'white';
+                    mensajeAviso.innerHTML = 'Error al enviar mensaje';
+                    btnEnviar.disabled = false;
+                    setTimeout(() => {
+                        mensajeAviso.remove();
+                        window.location.reload();
+                    }, 2000);
+                });
+            }, {
+                once: true
+            });
         });
     });
-
-    // formModificar.forEach(form => {
-    //     form.addEventListener('submit', function (event) {
-    //         event.preventDefault();
-    //         console.log(form);
-    //     });
-    // });
 });

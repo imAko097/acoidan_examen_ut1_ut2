@@ -52,7 +52,7 @@
             </ul>
         @endif
         <div id="divModificar">
-            <form id="formModificar-{{ $message->id }}" method="POST">
+            <form method="POST">
                 @csrf
                 @method('PUT')
                 <div>
