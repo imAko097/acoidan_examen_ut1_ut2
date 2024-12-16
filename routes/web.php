@@ -14,6 +14,7 @@ Route::get('/messages', function () {
 
 Route::post('/messages', [ModificarMensaje::class, 'newMensaje']);
 
-Route::get('/messages/{id}', [ModificarMensaje::class, 'mostrarMensaje']) -> name('mostrar.formulario.modificar');
+// Route::get('/messages/{id}', [ModificarMensaje::class, 'mostrarMensaje']) -> name('mostrar.formulario.modificar');
+Route::get('/formMessage/{id}', [ModificarMensaje::class, 'getMensaje']);
 
-Route::put('/messages/{id}', [ModificarMensaje::class, 'modificarMensaje']) -> name('modificar.duda');
+Route::put('/modMessages/{id}', [ModificarMensaje::class, 'modificarMensaje']) -> name('modificar.duda');

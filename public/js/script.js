@@ -31,7 +31,8 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(data => {
             const mensajeAviso = document.getElementById('mensajeAviso');
             mensajeAviso.style.backgroundColor = '#b1ee46';
-            mensajeAviso.style.color = 'white';
+            mensajeAviso.style.color = 'black';
+            mensajeAviso.style.marginTop = '10px';
             mensajeAviso.innerHTML = data.MESSAGE;
             btnEnviar.disabled = false;
             setTimeout(() => {
@@ -40,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 2000);
         })
         .catch(error => {
-            console.error('Error:', error);
+            console.error(error);
             const mensajeAviso = document.getElementById('mensajeAviso');
             mensajeAviso.style.backgroundColor = '#f44336';
             mensajeAviso.style.color = 'white';
@@ -56,13 +57,35 @@ document.addEventListener('DOMContentLoaded', function () {
     // Modificar
     const divModificar = document.getElementById('divModificar');
     const btnModificar = document.querySelectorAll('button[id^="btnModificar-"]');
+    const formModificar = document.querySelectorAll('form[id^="formModificar-"]');
+
     btnModificar.forEach(btn => {
         btn.addEventListener('click', function () {
-            if (divModificar.style.display === 'none') {
-                divModificar.style.display = 'block';
-            } else {
-                divModificar.style.display = 'none';
-            }
+        //     if (divModificar.style.display === 'none') {
+        //         divModificar.style.display = 'block';
+        //     } else {
+        //         divModificar.style.display = 'none';
+        //     }
+
+            // Colocar datos en el formulario, según el mensaje seleccionado
+            const idMensaje = btn.id.split('-')[1];
+            fetch('/formMessage/' + idMensaje)
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('nuevoMensajeMod').value = data.text;
+                document.getElementById('negritaMod').checked = data.negrita;
+                document.getElementById('subrayadoMod').checked = data.subrayado;
+            })
+            .catch(error => {
+                console.error(error);
+            });
         });
     });
+
+    // formModificar.forEach(form => {
+    //     form.addEventListener('submit', function (event) {
+    //         event.preventDefault();
+    //         console.log(form);
+    //     });
+    // });
 });

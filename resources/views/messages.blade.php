@@ -51,7 +51,7 @@
                 @endforeach
             </ul>
         @endif
-        <div id="divModificar" style="display: none;">
+        <div id="divModificar">
             <form id="formModificar-{{ $message->id }}" method="POST">
                 @csrf
                 @method('PUT')

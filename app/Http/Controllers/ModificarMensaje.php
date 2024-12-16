@@ -27,14 +27,16 @@ class ModificarMensaje extends Controller
     }
 
     // Mostrar los mensajes en la vista
-    public function mostrarMensaje($id) {
-        $message = Message::findOrFail($id);
-        $messages = Message::all();
-        return view('messages', compact('messages', 'message'));
-    }
+    // public function mostrarMensaje($id) {
+    //     $message = Message::findOrFail($id);
+    //     $messages = Message::all();
+    //     return view('messages', compact('messages', 'message'));
+    // }
+    
     // 
     public function modificarMensaje(Request $request, $id) {
         $registro = Message::findOrFail($id);
+        
         $datos = $request -> validate([
             'text' => 'required|max:50',
             'negrita' => 'boolean',
@@ -44,12 +46,21 @@ class ModificarMensaje extends Controller
             'text.max' => 'No puede superar los 50 caracteres',
         ]);
 
-        $registro_bd = new Message($datos);
-
-        $registro_bd -> save();
+        $registro -> update($datos);
 
         return response() -> json([
             'MESSAGE' => 'Mensaje editado correctamente'
+        ]);
+    }
+
+    // getMensaje
+    public function getMensaje($id) {
+        $mensaje = Message::findOrFail($id);
+
+        return response() -> json([
+            'text' => $mensaje->text,
+            'negrita' => $mensaje->negrita,
+            'subrayado' => $mensaje->subrayado,
         ]);
     }
 }
