@@ -56,15 +56,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Modificar
     const divModificar = document.getElementById('divModificar');
+    divModificar.style.display = 'none'; // Inicialmente no se muestra el formulario
+
     const btnModificar = document.querySelectorAll('button[id^="btnModificar-"]');
 
     btnModificar.forEach(btn => {
         btn.addEventListener('click', function () {
-        //     if (divModificar.style.display === 'none') {
-        //         divModificar.style.display = 'block';
-        //     } else {
-        //         divModificar.style.display = 'none';
-        //     }
+            // Mostrar/ocultar el formulario de modificación
+            if (divModificar.style.display === 'none') {
+                divModificar.style.display = 'block';
+            } else {
+                divModificar.style.display = 'none';
+            }
 
             // Colocar datos en el formulario, según el mensaje seleccionado
             const idMensaje = btn.id.split('-')[1]; // ID del mensaje
