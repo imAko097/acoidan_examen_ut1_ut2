@@ -26,7 +26,7 @@ class ModificarMensaje extends Controller
         ]);
     }
 
-    // Modificar mensajes 
+    // Modificar un mensaje
     public function modificarMensaje(Request $request, $id) {
         $registro = Message::findOrFail($id);
         
@@ -39,14 +39,14 @@ class ModificarMensaje extends Controller
             'text.max' => 'No puede superar los 50 caracteres',
         ]);
 
-        $registro -> update($datos); // Actualizar datos
+        $registro -> update($datos);
 
         return response() -> json([
             'MESSAGE' => 'Mensaje editado correctamente'
         ]);
     }
 
-    // Devolver información de UN MENSAJE dado
+    // Información de UN MENSAJE dado
     public function getMensaje($id) {
         $mensaje = Message::findOrFail($id);
 

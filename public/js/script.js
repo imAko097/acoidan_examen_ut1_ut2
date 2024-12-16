@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }, 2000);
                 });
             }, {
-                once: true
+                once: true // Solo ejecutar una vez
             });
         });
     });
